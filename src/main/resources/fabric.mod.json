@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "flashback-redroided",
+  "version": "${version}",
+  "name": "Flashback Redroided",
+  "description": "Android compatibility patches for Flashback (ImGui binding remap + FFmpeg NDK + file dialogs).",
+  "icon": "assets/flashback-redroided/icon.png",
+  "environment": "client",
+
+  "authors": [
+    "WhalterMC"
+  ],
+
+  "contact": {
+    "website": "https://whaltermc.vercel.app/flashback-redroided",
+    "sources": "https://github.com/whaltermc/Flashback-Redroided"
+  },
+
+  "entrypoints": {
+    "main": [
+      "com.whaltermc.FlashbackRedroided"
+    ],
+    "preLaunch": [
+      "com.whaltermc.FlashbackPreLaunch"
+    ]
+  },
+
+  "mixins": [
+    "flashback-redroided.client.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "26.3",
+    "fabric-api": "*",
+    "flashback": "*"
+  },
+
+  "custom": {
+    "modmenu": {
+      "parent": "flashback"
+    }
+  }
+}

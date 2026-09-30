@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.whaltermc.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "AsyncFileDialogsMixin",
+    "FlashbackFFmpegFrameRecorderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.5"
+  }
+}
