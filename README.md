@@ -62,8 +62,8 @@ Please download Flashback separately and follow its license.
 
 ### Links
 
-- Website: https://whaltermc.vercel.app
-- Source: https://github.com/ItsWinterBush26/Flashback-Redroided
+- Website: https://whaltermc.vercel.app/flashback-redroided
+- Source: https://github.com/whaltermc/flashback-redroided
 - Flashback: https://modrinth.com/mod/flashback
 
 ### Issues
