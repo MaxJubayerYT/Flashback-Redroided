@@ -15,14 +15,21 @@ Flashback Redroided is a small addon that patches parts of Flashback that don't 
 
 ### Installation
 
-1. Install Fabric for Minecraft 26.3.
+1. Install Fabric Loader 0.18.2 or newer for Minecraft 1.21.11.
 2. Install Fabric API.
-3. Install the original Flashback mod.
+3. Install the original Flashback mod (0.39.3 or newer for 1.21.11).
 4. Download the matching Flashback Redroided version.
 5. Put both ".jar" files in your "mods" folder.
 6. Start Minecraft using your Android launcher.
 
 **Flashback Redroided requires [Flashback](https://modrinth.com/mod/flashback). It does not replace [Flashback](https://modrinth.com/mod/flashback).**
+
+### Branches
+
+This is the **Minecraft 1.21.11** branch. The `master` branch targets Minecraft 26.3.
+
+Flashback 0.39.0 and 0.39.1 use an un-relocated ImGui package that this mod does not remap,
+so Flashback 0.39.3 or newer is required.
 
 ### Android Launchers
 

@@ -1,19 +1,15 @@
 package com.whaltermc.mixin;
 
 import com.moulberry.flashback.Flashback;
+import com.moulberry.flashback.exporting.AsyncFileDialogs;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.sdl.SDLDialog;
-import org.lwjgl.sdl.SDL_DialogFileFilter;
-import org.lwjgl.sdl.SDLError;
-import org.lwjgl.system.MemoryUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 import java.io.File;
-import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 
-@Mixin(targets = "com.moulberry.flashback.utils.AsyncFileDialogs")
+@Mixin(targets = "com.moulberry.flashback.exporting.AsyncFileDialogs", remap = false)
 public class AsyncFileDialogsMixin {
 
     private static File flashbackRedroided$getDefaultExportDir() {
@@ -32,35 +28,11 @@ public class AsyncFileDialogsMixin {
         return dir;
     }
 
-    private static String flashbackRedroided$filter(CharSequence in) {
-        return flashbackRedroided$filterLT20(
-                in.toString()
-                        .replace("'", "")
-                        .replace("\"", "")
-                        .replace("$", "")
-                        .replace("`", "")
-        );
-    }
-
-    private static String flashbackRedroided$filterLT20(CharSequence in) {
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < in.length(); i++) {
-            char c = in.charAt(i);
-
-            if (c >= 32 || c == '\n') {
-                builder.append(c);
-            }
-        }
-
-        return builder.toString();
-    }
-
     /**
      * Android fallback version of Flashback's save dialog.
      *
      * @author WhalterMC
-     * @reason SDL's Android file dialog may be unavailable in Pojav/MJ/Zalith.
+     * @reason Native File Dialog (NFD) has no Android backend in Pojav/MJ/Zalith.
      */
     @Overwrite
     public static CompletableFuture<String> saveFileDialog(
@@ -71,32 +43,17 @@ public class AsyncFileDialogsMixin {
     ) {
         // If Flashback already has a dialog open.
         // We intentionally return a completed future just like the original.
-        //noinspection ConstantValue
-        if (com.moulberry.flashback.utils.AsyncFileDialogs.hasDialog()) {
+        if (AsyncFileDialogs.hasDialog()) {
             return CompletableFuture.completedFuture(null);
         }
 
         CompletableFuture<String> future = new CompletableFuture<>();
 
-        String defaultLocation =
-                flashbackRedroided$filter(defaultPath + "/" + defaultName);
-
         String autoExtension =
                 filters.length == 1 ? filters[0] : null;
 
-        long window =
-                Minecraft.getInstance().getWindow().handle();
-
-        /*
-         * We cannot access Flashback's private createFilterBuffer()
-         * from the Mixin, so this implementation is intended to be
-         * used together with the original dialog infrastructure.
-         *
-         * The actual fallback happens when SDL returns NULL.
-         */
-
-        // For a launcher without SDL Android dialog support, immediately
-        // use the same fallback directory introduced by commit 733f004.
+        // A launcher without a native dialog backend can't show a picker,
+        // so immediately use the default export directory instead.
         String name = defaultName;
 
         if (name != null
@@ -123,13 +80,13 @@ public class AsyncFileDialogsMixin {
      * Folder picker fallback for Android launchers.
      *
      * @author WhalterMC
-     * @reason SDL Android folder picker may not be available.
+     * @reason Native File Dialog (NFD) has no Android backend in Pojav/MJ/Zalith.
      */
     @Overwrite
     public static CompletableFuture<String> openFolderDialog(
             String defaultPath
     ) {
-        if (com.moulberry.flashback.utils.AsyncFileDialogs.hasDialog()) {
+        if (AsyncFileDialogs.hasDialog()) {
             return CompletableFuture.completedFuture(null);
         }
 
